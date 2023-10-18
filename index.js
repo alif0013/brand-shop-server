@@ -56,6 +56,40 @@ async function run() {
             res.send(result)
         })
 
+        // updated a document 
+
+        app.put("/products/:id", async (req, res) => {
+            const id = req.params.id;
+            const updatedProduct = req.body;
+            // console.log("id", id, updatedProduct);
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            // name, brand, type, price, rating, , photo }
+
+            const product = {
+                $set: {
+
+                    name: updatedProduct.name,
+                    brand: updatedProduct.brand,
+                    type: updatedProduct.type,
+                    price: updatedProduct.price,
+                    rating: updatedProduct.rating,
+                    description: updatedProduct.description,
+                    photo: updatedProduct.photo
+                },
+            };
+            const result = await productsCollection.updateOne(
+                filter,
+                product,
+                options
+            );
+            res.send(result);
+        });
+
+
+
+
+
 
 
 
