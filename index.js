@@ -30,18 +30,19 @@ async function run() {
         await client.connect();
 
         const productsCollection = client.db('productsDB').collection('products');
+        const cartsCollection = client.db('productsDB').collection('carts');
 
 
-        // get data to the database
-        app.get('/products', async (req,res)=>{
+        // get products data to the database
+        app.get('/products', async (req, res) => {
             const result = await productsCollection.find().toArray();
             res.send(result)
         })
 
         // find a single data 
-        app.get('/products/:id', async (req, res)=>{
+        app.get('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const query = { _id: new ObjectId(id)}
+            const query = { _id: new ObjectId(id) }
             const result = await productsCollection.findOne(query)
             res.send(result)
         })
@@ -49,7 +50,7 @@ async function run() {
 
 
         // Add product store to the database
-        app.post('/products', async (req, res)=>{
+        app.post('/products', async (req, res) => {
             const newProduct = req.body;
             // console.log(newProduct);
             const result = await productsCollection.insertOne(newProduct)
@@ -86,8 +87,24 @@ async function run() {
             res.send(result);
         });
 
+        // handle my cart data 
 
 
+
+
+        // get data to the database
+        app.get('/carts', async (req, res) => {
+            const result = await cartsCollection.find().toArray();
+            res.send(result)
+        })
+
+        // post carts data to the database 
+        app.post('/carts', async (req, res) => {
+            const newCarts = req.body;
+            console.log(newCarts);
+            const result = await cartsCollection.insertOne(newCarts)
+            res.send(result)
+        })
 
 
 
