@@ -98,6 +98,15 @@ async function run() {
             res.send(result)
         })
 
+        // find a single data 
+        app.get('/carts/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await productsCollection.findOne(query)
+            res.send(result)
+        })
+
+
         // post carts data to the database 
         app.post('/carts', async (req, res) => {
             const newCarts = req.body;
@@ -106,7 +115,15 @@ async function run() {
             res.send(result)
         })
 
-
+        // delet a product on my cart by delete operation
+        app.delete('/carts/:id', async (req, res) =>{
+            const id = req.params.id;
+            // console.log(`Deleting item with ID: ${id}`);
+            // const query = { _id: new ObjectId(id)}
+            const query = {_id: id}
+            const result = await cartsCollection.deleteOne(query)
+            res.send(result)
+        })
 
 
 
