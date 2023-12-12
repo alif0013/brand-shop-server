@@ -31,6 +31,7 @@ async function run() {
 
         const productsCollection = client.db('productsDB').collection('products');
         const cartsCollection = client.db('productsDB').collection('carts');
+        const commentsCollection = client.db('productsDB').collection('comment');
 
 
         // get products data to the database
@@ -98,6 +99,12 @@ async function run() {
             res.send(result)
         })
 
+        //get comment
+        app.get('/comment', async (req, res) => {
+            const result = await commentsCollection.find().toArray();
+            res.send(result)
+        })
+
         // find a single data 
         app.get('/carts/:id', async (req, res) => {
             const id = req.params.id;
@@ -112,6 +119,14 @@ async function run() {
             const newCarts = req.body;
             console.log(newCarts);
             const result = await cartsCollection.insertOne(newCarts)
+            res.send(result)
+        })
+
+        // post carts data to the database 
+        app.post('/comment', async (req, res) => {
+            const newComment = req.body;
+            // console.log(newCarts);
+            const result = await commentsCollection.insertOne(newComment)
             res.send(result)
         })
 
